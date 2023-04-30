@@ -7,7 +7,7 @@ import {
   addDoc, // a method to adding a new data to the firebase
   deleteDoc, // method to delete
   doc, //similiar to collection
-
+  
 } from "firebase/firestore";
 import BookForm from "./components/BookForm";
 import BookList from "./components/BookList";
@@ -30,8 +30,7 @@ function App() {
   const [deletedBookId, setDeletedBookId] = useState('')
 
   console.log(currentBooks);
-  console.log(newBook);
-  console.log(deletedBookId)
+
 
   // init firebase app
   initializeApp(firebaseConfig);
@@ -50,6 +49,8 @@ function App() {
         snapshot.docs.forEach((doc) => {
           books.push({ ...doc.data(), id: doc.id });
         });
+        console.log(books)
+        console.log(typeof books)
         setCurrentBook(books);
       })
       .catch((error) => console.log(error.message));
@@ -59,7 +60,6 @@ function App() {
     setNewBook(data);
     const book = data;
     console.log(book);
-    console.log(typeof book);
 
     addDoc(colRef, {
       title: book.title,
@@ -87,7 +87,7 @@ function App() {
       <BookForm addBookForm={addBookForm} />
       <h1>delete form</h1>
       <BookDelete deleteBookForm={deleteBookForm}/>
-      <BookList />
+      <BookList books={currentBooks} />
     </div>
   );
 }
